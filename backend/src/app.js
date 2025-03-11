@@ -3,6 +3,8 @@ const connectDB = require("./config/database");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRouter");
 const cors = require("cors");
+const categoryRouter = require("./routes/categoryRoute");
+const profileRoute = require("./routes/profileRouter");
 
 const app = express();
  
@@ -13,6 +15,10 @@ app.use(cookieParser())
 app.use("/uploads", express.static("src/uploads"));
 
 app.use("/", authRouter);
+app.use("/", categoryRouter);
+app.use("/", profileRoute);
+
+
 
 connectDB()
   .then(() => {
