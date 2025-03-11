@@ -8,8 +8,6 @@ const UserAuth = async (req, res,next) => {
     if (!token) {
       throw new Error("Please Login In");
     }
-
-    
     const decodedObj = await jwt.verify(token, "dev@Ecommerce123");
     const { _id } = decodedObj;
 
