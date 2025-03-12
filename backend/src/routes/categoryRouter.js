@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const Category= require("../models/categorymodel")
  
 const categoryRouter = express.Router();
 
@@ -41,7 +42,7 @@ categoryRouter.post(
         category_name,
         category_photo_url: {
           filename: req.file.filename,
-          path: `uploads/${req.file.filename}`,
+          path: `http://localhost:7777/uploads/${req.file.filename}`,
           contentType: req.file.mimetype,
         },
       });
