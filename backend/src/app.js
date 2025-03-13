@@ -7,6 +7,7 @@ const cors = require("cors");
 const profileRoute = require("./routes/profileRouter");
 const categoryRouter = require("./routes/categoryRouter");
 const AdminRouter = require("./routes/adminRouter");
+const BannerRouter = require("./routes/bannerRouter");
 
 const app = express();
  
@@ -23,6 +24,8 @@ app.use("/", authRouter);
 app.use("/", categoryRouter );
 app.use("/", profileRoute);
 app.use("/", AdminRouter);
+app.use("/", BannerRouter);
+
 
 
 
