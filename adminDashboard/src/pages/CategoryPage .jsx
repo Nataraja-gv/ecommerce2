@@ -12,37 +12,47 @@ import {
   Button,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryDialog from "../sections/CategoryDiaglog";
 
 const CategoryPage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null); 
-
-    
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const admin = useSelector((store) => store?.admin);
+  
 
   const fetchCategoryLists = async () => {
+    
     try {
-      const res = await axios.get(BASE_URL + "/category/all");
+      const res = await axios.get(BASE_URL + "/category/all", {
+        withCredentials: true,
+      });
       setCategoryList(res?.data?.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 401) {
+        console.log("login")
+      }
       setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchCategoryLists();
+  }, [open, admin]);
+  useEffect(() => {
+    fetchCategoryLists();
   }, [open]);
 
   const handleEditClick = (category) => {
     setSelectedCategory(category);
-     setOpen(true);
+    setOpen(true);
   };
   const handleClickOpen = () => {
-    setSelectedCategory(null)
+    setSelectedCategory(null);
     setOpen(true);
   };
   const handleClose = () => {

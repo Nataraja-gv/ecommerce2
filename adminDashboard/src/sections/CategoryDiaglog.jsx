@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import BASE_URL from "../config";
+import { useSelector } from "react-redux";
 
 // Custom styled dialog
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -30,11 +31,12 @@ export default function CategoryDialog({
 }) {
   const [categoryName, setCategoryName] = useState("");
   const [categoryPhoto, setCategoryPhoto] = useState(null);
+  const admin = useSelector((store) => store?.admin);
 
   useEffect(() => {
     if (selectedCategory) {
       setCategoryName(selectedCategory.category_name || "");
-      setCategoryPhoto(selectedCategory.category_photo_url?.path || null);
+      setCategoryPhoto(selectedCategory.category_photo_url || null);
     }
   }, [selectedCategory]);
 
@@ -53,37 +55,35 @@ export default function CategoryDialog({
     try {
       const formData = new FormData();
       formData.append("category_name", categoryName);
-      if (categoryPhoto) {
+
+      if (categoryPhoto instanceof File) {
         formData.append("category_photo_url", categoryPhoto);
+      } else if (typeof categoryPhoto === "string" || categoryPhoto?.path) {
+        formData.append("category_photo_url", JSON.stringify(categoryPhoto));
       }
-  
+
       const endpoint = selectedCategory
         ? `/category/edit?_id=${selectedCategory._id}`
         : "/category/new";
-  
-      
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      };
       if (selectedCategory) {
-        
-        await axios.patch(BASE_URL + endpoint, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await axios.patch(BASE_URL + endpoint, formData, config);
       } else {
-        // Send POST request when creating a new category
-        await axios.post(BASE_URL + endpoint, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await axios.post(BASE_URL + endpoint, formData, config);
       }
-  
+
       handleClose();
     } catch (error) {
       console.error("Error uploading category:", error);
     }
   };
-  
+
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -133,8 +133,8 @@ export default function CategoryDialog({
           {categoryPhoto && (
             <img
               src={
-                typeof categoryPhoto === "string"
-                  ? categoryPhoto
+                typeof categoryPhoto?.path === "string"
+                  ? categoryPhoto?.path
                   : URL.createObjectURL(categoryPhoto)
               }
               alt="Category Preview"

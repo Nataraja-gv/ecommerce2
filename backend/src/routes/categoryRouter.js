@@ -1,7 +1,8 @@
 const express = require("express");
 const multer = require("multer");
-const Category= require("../models/categorymodel")
- 
+const Category = require("../models/categorymodel");
+const AdminAuth = require("../middleware/adminIndex");
+
 const categoryRouter = express.Router();
 
 const storage = multer.diskStorage({
@@ -18,6 +19,7 @@ const uploads = multer({ storage: storage });
 
 categoryRouter.post(
   "/category/new",
+  AdminAuth,
   uploads.single("category_photo_url"),
   async (req, res) => {
     try {
@@ -55,7 +57,7 @@ categoryRouter.post(
   }
 );
 
-categoryRouter.get("/category/all", async (req, res) => {
+categoryRouter.get("/category/all", AdminAuth, async (req, res) => {
   try {
     const all_category = await Category.find();
     res.json({ message: "All category Details", data: all_category });
@@ -66,32 +68,34 @@ categoryRouter.get("/category/all", async (req, res) => {
 
 categoryRouter.patch(
   "/category/edit",
+  AdminAuth,
+
   uploads.single("category_photo_url"),
   async (req, res) => {
     try {
-      const { category_name } = req.body;
+      const { category_name, category_photo_url } = req.body;
+
       if (!category_name) {
         return res.status(400).json({ message: "Category name is required" });
       }
 
-      if (!req.file) {
-        return res.status(400).json({ message: "Category photo is required" });
-      }
       const _id = req.query._id;
 
       const categoryById = await Category.findById({ _id });
       if (!categoryById) {
         return res.status(400).json({ message: "Invalid ID" });
       }
-     
 
-      let photoUrl = null;
+      let photoUrl = categoryById.category_photo_url;
+
       if (req.file) {
         photoUrl = {
           filename: req.file.filename,
           path: `http://localhost:7777/uploads/${req.file.filename}`,
           contentType: req.file.mimetype,
         };
+      } else if (category_photo_url) {
+        photoUrl = JSON.parse(category_photo_url);
       }
 
       const data = {
