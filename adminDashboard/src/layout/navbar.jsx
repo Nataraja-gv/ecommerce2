@@ -61,7 +61,7 @@ const NavBar = () => {
   const handleChange = (key, value) => {
     setUser((prev) => ({
       ...prev,
-      [key]: value, // Directly assign the value without putting it in an array
+      [key]: value,  
     }));
   };
 
@@ -89,7 +89,7 @@ const NavBar = () => {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {["Category", "Product", "Banner", "Drafts"].map((text, index) => (
+        {["Category", "Product", "Banner", ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={`/${text.toLowerCase()}`}>
               <ListItemIcon>
