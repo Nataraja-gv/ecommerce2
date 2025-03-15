@@ -61,7 +61,7 @@ const NavBar = () => {
   const handleChange = (key, value) => {
     setUser((prev) => ({
       ...prev,
-      [key]: value,  
+      [key]: value,
     }));
   };
 
@@ -89,7 +89,7 @@ const NavBar = () => {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {["Category", "Product", "Banner", ].map((text, index) => (
+        {["Category", "Product", "Banner"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={`/${text.toLowerCase()}`}>
               <ListItemIcon>
@@ -119,8 +119,6 @@ const NavBar = () => {
         },
         { withCredentials: true }
       );
-
-      console.log(res?.data);
 
       dispatch(addAdmin(res?.data));
 

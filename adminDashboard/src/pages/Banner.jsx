@@ -40,7 +40,7 @@ const BannerPage = () => {
 
   useEffect(() => {
     fetchBannerLists();
-  }, [open, admin]);
+  }, [open]);
 
   const handleEditClick = (banner) => {
     setBannerCategory(banner);

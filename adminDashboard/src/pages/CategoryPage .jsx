@@ -24,8 +24,7 @@ const CategoryPage = () => {
   
 
   const fetchCategoryLists = async () => {
-    
-    try {
+     try {
       const res = await axios.get(BASE_URL + "/category/all", {
         withCredentials: true,
       });
@@ -42,19 +41,20 @@ const CategoryPage = () => {
 
   useEffect(() => {
     fetchCategoryLists();
-  }, [open, admin]);
-  useEffect(() => {
-    fetchCategoryLists();
-  }, [open]);
+  }, [selectedCategory,open]);
+  
 
   const handleEditClick = (category) => {
     setSelectedCategory(category);
     setOpen(true);
   };
+
+
   const handleClickOpen = () => {
     setSelectedCategory(null);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
