@@ -3,9 +3,8 @@ import { toast } from "react-toastify";
 import { getAllBanner } from "../../services/getAllBanner";
 import Carousel from "../../components/carousel";
 
-const Home = () => {
+const Mens = () => {
   const [bannerData, setBannerData] = useState([]);
-
   const fetchBanner = async () => {
     try {
       const res = await getAllBanner();
@@ -19,13 +18,17 @@ const Home = () => {
     fetchBanner();
   }, []);
 
+  const mensBanner = bannerData.filter(
+    (images) => images.category?.category_name === "mens"
+  );
+
   return (
     <div>
-      <div className="mt-[20px]">
-        <Carousel images={bannerData} />
+      <div className=" mt-[20px]">
+        <Carousel images={mensBanner} />
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Mens;

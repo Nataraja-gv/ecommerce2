@@ -30,10 +30,11 @@ authRouter.post(
       const user = await User.findOne({ email });
 
       if (user) {
-        return res.status(400).json("User already exists");
+      throw new Error("User already exists");
       }
 
       const passwordHash = await bcrypt.hash(password, 10);
+      
 
       const newUser = new User({
         name,

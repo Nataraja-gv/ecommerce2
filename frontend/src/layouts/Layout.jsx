@@ -5,17 +5,16 @@ import { ProfileAuth } from "../services/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../feature/authSlice";
 import { toast } from "react-toastify";
- 
-
+import MainContainer from "./mainContainer";
 
 const Layout = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store?.user);
- 
+
   const fetchUser = async () => {
     try {
-      const res = await ProfileAuth(); 
-      dispatch(addUser(res?.data))
+      const res = await ProfileAuth();
+      dispatch(addUser(res?.data));
     } catch (error) {
       toast.error(error?.data?.message || error);
     }
@@ -28,7 +27,9 @@ const Layout = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <MainContainer>
+        <Outlet />
+      </MainContainer>
     </div>
   );
 };

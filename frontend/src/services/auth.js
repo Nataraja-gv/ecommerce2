@@ -16,7 +16,7 @@ export const Auth = async (loginData) => {
     const res = await axiosInstance.request(config);
     return res?.data;
   } catch (error) {
-    toast.error(error?.data?.message || error);
+    toast.error(error?.message || error);
   }
 };
 
@@ -48,9 +48,28 @@ export const UserLogout = async () => {
     withCredentials: true,
   };
   try {
-    const res= await axiosInstance.request(config)
-    return res?.data
+    const res = await axiosInstance.request(config);
+    return res?.data;
   } catch (error) {
     toast.error(error?.data?.message || error);
+  }
+};
+
+export const AuthSignup = async (data) => {
+  const config = {
+    method: "post",
+    url: `/auth/signup`,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+    data,
+  };
+
+  try {
+    const res = await axiosInstance.request(config);
+    return res?.data;
+  } catch (error) {
+    toast.error(error?.message || error|| error?.data?.message);
   }
 };

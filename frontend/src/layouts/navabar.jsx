@@ -18,11 +18,28 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-gray-700 text-white shadow-lg px-6 py-4">
+    <div className="navbar bg-gray-700 text-white shadow-lg px-6 py-4 fixed top-0 ">
       <div className="flex-1 flex items-center">
-        <a className="text-2xl font-bold text-white hover:text-indigo-400 transition duration-300">
+        <Link
+          to="/"
+          className="text-2xl font-bold text-white hover:text-indigo-400 transition duration-300"
+        >
           DevThunder
-        </a>
+        </Link>
+      </div>
+      <div className="">
+        <ul className=" flex justify-between  gap-5 px-1">
+          <li>
+            <Link to="/mens">Mens</Link>
+          </li>
+          <li>
+            <Link to="/womens">Womens</Link>
+          </li>
+
+          <li>
+            <Link to="/kids">Kids</Link>
+          </li>
+        </ul>
       </div>
 
       <div className="flex-none flex items-center space-x-6">
@@ -57,14 +74,14 @@ const Navbar = () => {
 
         {/* User Profile or Login Button */}
         {user ? (
-          <div className="dropdown dropdown-end flex  items-center gap-4">
+          <div className="flex items-center gap-4 dropdown dropdown-bottom">
             <h1 className=" font-bold">Welcome {user?.name}</h1>
             <div
-              tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar border-2 border-white"
+              className="btn btn-ghost btn-circle avatar border-2 border-white m-1"
+              tabIndex={0}
             >
-              <div className="w-10 rounded-full overflow-hidden">
+              <div className="w-10 rounded-full overflow-hidden ">
                 <img
                   alt="User Avatar"
                   src={user?.photo_url?.path}
@@ -74,19 +91,21 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-gray-800 text-white rounded-box z-[1] mt-3 w-52 p-2 shadow-lg"
+              className="dropdown-content  bg-gray-700  border-2 border-white rounded-box z-1 w-52 p-2  "
             >
-              <li>
-                <a className="text-white">Profile</a>
+              <li className="font-bold cursor-pointer">
+                <Link>Profile</Link>
               </li>
-              <li>
-                <a className=" text-white">Settings</a>
+              <li className=" font-bold cursor-pointer">
+                <Link>Orders</Link>
               </li>
-              <li onClick={logout}>Logout</li>
+              <li className=" font-bold cursor-pointer" onClick={logout}>
+                Logout
+              </li>
             </ul>
           </div>
         ) : (
-          <button className="btn btn-primary text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-indigo-600">
+          <button className="btn btn-primary text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-indigo-600 cursor-pointer">
             <Link to="/login">Login</Link>
           </button>
         )}

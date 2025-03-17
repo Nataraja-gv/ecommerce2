@@ -33,14 +33,11 @@ const LoginPage = () => {
 
     try {
       const res = await Auth(userData);
-
-      if (res) {
+     if (res) {
         dispatch(addUser(res?.data));
         toast.success("Login successful");
         navigate("/");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
+      } 
     } catch (error) {
       toast.error(error.message || "An error occurred during login");
     }
